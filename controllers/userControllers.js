@@ -1,4 +1,4 @@
-let userService = require('../services/userServices')
+const userService = require('../services/userServices')
 const uuid = require('uuid');
 
 const getAllUsers = (req, res) => res.json(userService.getUsers())
