@@ -1,67 +1,25 @@
-class UserService {
-    constructor() {
-        this.users = [
-            {
-                id: '1',
-                name: 'John Doe',
-                email: 'john@gmail.com',
-            },
-            {
-                id: '2',
-                name: 'Bob Williams',
-                email: 'bob@gmail.com',
-            },
-            {
-                id: '3',
-                name: 'Shannon Jackson',
-                email: 'shannon@gmail.com',
-            },
-            {
-                id: '4',
-                name: 'Williams Doe',
-                email: 'Doe@gmail.com',
-            }
-        ]
-    }
+const User = require('../models/userModel')
 
-    getUsers() {
-        return this.users
+class UserService {
+
+    getUsers () {
+       return User.findAll()
     }
 
     getUserById(id) {
-        const foundUser = this.users.filter((user) => user.id === id)
-        return foundUser.length ? foundUser[0] : false
+        return User.findOne({where: { id }})
     }
 
     addUser(newUser) {
-        this.users.push(newUser)
-        return this.users
+        return User.create(newUser)
     }
 
-    changeUser(id, userUpd) {
-        const exist = this.users.filter((user) => user.id === id);
-
-        if (exist.length) {
-            this.users.forEach((user, i) => {
-                if (user.id === id) {
-                    this.users[i] = {...user, ...userUpd};
-                }
-            });
-            return this.users.filter((user) => user.id === id)[0]
-        } else {
-            return false
-        }
+    changeUser(id, {name, email}) {
+        return User.update({name, email},{where: { id }})
     }
 
     deleteUser(id) {
-        const found = this.users.some((user) => user.id === id)
-
-        if(found) {
-            const newData = this.users.filter((user) => user.id !== id)
-            return this.users = [...newData]
-        } else {
-            return false
-        }
+        return User.destroy({where: { id }})
     }
 }
 
